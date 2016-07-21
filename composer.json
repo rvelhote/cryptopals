@@ -1,0 +1,23 @@
+{
+  "name": "welhott/cryptopals",
+  "type": "library",
+  "description": "Solving cryptopals challenged with PHP.",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ricardo Velhote",
+      "email": "rvelhote+github@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Welhott\\Cryptopals\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Welhott\\Cryptopals\\": "tests/"
+    }
+  }
+}

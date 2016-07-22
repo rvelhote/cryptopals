@@ -32,7 +32,7 @@ class Challenge2
     /**
      * Produce the XOR combination of two hexadecimal strings.
      * @param string $input The input string.
-     * @param string $against The string we want to combine the input agains.
+     * @param string $against The string we want to combine the input against.
      * @return string The result of the XOR combination in hexadecimal
      */
     public static function produceXorCombination(string $input, string $against) : string

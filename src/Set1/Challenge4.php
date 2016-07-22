@@ -72,10 +72,10 @@ class Challenge4
 
     /**
      * Find the best candidate from all the decrypted lines.
-     * @param $candidates The list of candidates
+     * @param array $candidates The list of candidates
      * @return array Information about the candidate
      */
-    public function findBestCandidate($candidates) : array
+    public function findBestCandidate(array $candidates) : array
     {
         usort($candidates, function ($a, $b) {
             if ($a['score'] == $b['score']) {

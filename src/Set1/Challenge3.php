@@ -109,16 +109,13 @@ class Challenge3
 
     /**
      * Encrypts the message with a certain encryption key.
-     * Thanks StackOverflow for the XOR encryption and the String2Hexadecimal code ;)
-     *
      * @param string $message The message to encrypt.
      * @param string $key The encryption key.
      * @return string The encrypted message
      */
     public static function encrypt(string $message, string $key) : string
     {
-        $message = unpack('H*', $message ^ str_repeat($key, mb_strlen($message)));
-        return array_shift($message);
+        return bin2hex($message ^ str_repeat($key, mb_strlen($message)));
     }
 
     /**

@@ -34,22 +34,49 @@ namespace Welhott\Cryptopals\Set1;
  */
 class Challenge4
 {
+    /**
+     * @var array
+     */
+    private $secrets = [];
+
+    /**
+     * Challenge4 constructor.
+     * @param string $path
+     */
     public function __construct(string $path)
     {
-        $content = file_get_contents($path);
 
-        // FIXME This is so dumb. I am trying to split by \r\n, \n\r, \n and \r Nothing is working!!! :(
-        $lines = explode('<br>', nl2br($content, false));
-        array_walk($lines, function(&$v) { $v = trim($v); });
+        $this->secrets = preg_split('/\r\n|\r|\n/', file_get_contents($path));
 
-        $solutions = [];
+    }
 
-        foreach($lines as $line) {
-            $challenge = new Challenge3($line);
-            $solutions[] = $challenge->decrypt($challenge->bruteForceKey());
+    public function decrypt() : array
+    {
+        $candidates = [];
+
+        foreach ($this->secrets as $secret) {
+            $challenge = new Challenge3($secret);
+            $key = $challenge->bruteForceKey();
+
+            $candidates[] = [
+                'key' => $key,
+                'attempt' => $challenge->decrypt($key),
+                'score' => $challenge->score($challenge->decrypt($key)),
+            ];
         }
 
+        return $candidates;
+    }
 
+    public function findBestCandidate($candidates) : array
+    {
+        usort($candidates, function ($a, $b) {
+            if ($a['score'] == $b['score']) {
+                return 0;
+            }
+            return ($a['score'] > $b['score']) ? -1 : 1;
+        });
 
+        return reset($candidates);
     }
 }

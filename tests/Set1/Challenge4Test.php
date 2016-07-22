@@ -34,6 +34,13 @@ class Challenge4Test extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
+        $expected = 'Now that the party is jumping';
+        $expectedKey = '5';
+
         $challenge = new Challenge4('../../dataset/set1/challenge4.txt');
+        $actual = $challenge->findBestCandidate($challenge->decrypt());
+
+        $this->assertEquals($expectedKey, $actual['key']);
+        $this->assertEquals($expected, $actual['attempt']);
     }
 }

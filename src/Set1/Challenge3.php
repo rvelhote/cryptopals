@@ -130,7 +130,7 @@ class Challenge3
     {
         $raw = $this->getRawBytes();
         $key = str_repeat($key, mb_strlen($raw));
-        return $raw ^ $key;
+        return trim($raw ^ $key);
     }
 
     /**
@@ -183,7 +183,7 @@ class Challenge3
      *
      * TODO Improve this scoring method. It does not seem very trustworthy even though it works in this example.
      */
-    private function score(string $decrypted) : float
+    public function score(string $decrypted) : float
     {
         $score = 0.0;
 

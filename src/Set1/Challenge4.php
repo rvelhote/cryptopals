@@ -45,11 +45,13 @@ class Challenge4
      */
     public function __construct(string $path)
     {
-
         $this->secrets = preg_split('/\r\n|\r|\n/', file_get_contents($path));
-
     }
 
+    /**
+     * Decrypt all the lines in the file and return decryption information about them.
+     * @return array Each of the lines decrypted
+     */
     public function decrypt() : array
     {
         $candidates = [];
@@ -68,6 +70,11 @@ class Challenge4
         return $candidates;
     }
 
+    /**
+     * Find the best candidate from all the decrypted lines.
+     * @param $candidates The list of candidates
+     * @return array Information about the candidate
+     */
     public function findBestCandidate($candidates) : array
     {
         usort($candidates, function ($a, $b) {

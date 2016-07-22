@@ -40,7 +40,7 @@ class Challenge3
      * @see https://en.wikipedia.org/wiki/Letter_frequency
      * @var array
      */
-    const FREQUENCY = [
+    public static $FREQUENCY = [
         'a' => '8.167',
         'b' => '1.492',
         'c' => '2.782',
@@ -189,8 +189,8 @@ class Challenge3
         for ($i = 0; $i < $decryptedLength; $i++) {
             $letter = $decrypted[$i];
 
-            if (array_key_exists($letter, self::FREQUENCY)) {
-                $score += self::FREQUENCY[$letter];
+            if (isset(static::$FREQUENCY[$letter])) {
+                $score += static::$FREQUENCY[$letter];
             } else {
                 $score -= 100;
             }

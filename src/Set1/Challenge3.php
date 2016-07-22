@@ -161,12 +161,11 @@ class Challenge3
 
         if ($sorted) {
             uasort($scoreboard, function ($a, $b) {
-                    if ($a['score'] == $b['score']) {
-                        return 0;
-                    }
-                    return ($a['score'] > $b['score']) ? -1 : 1;
+                if ($a['score'] == $b['score']) {
+                    return 0;
                 }
-            );
+                return ($a['score'] > $b['score']) ? -1 : 1;
+            });
         }
 
         return $scoreboard;
@@ -184,8 +183,11 @@ class Challenge3
     {
         $score = 0.0;
 
-        for ($i = 0; $i < mb_strlen($decrypted); $i++) {
-            $letter = mb_strtolower($decrypted{$i});
+        $decryptedLength = mb_strlen($decrypted);
+        $decrypted = mb_strtolower($decrypted);
+
+        for ($i = 0; $i < $decryptedLength; $i++) {
+            $letter = $decrypted[$i];
 
             if (array_key_exists($letter, self::FREQUENCY)) {
                 $score += self::FREQUENCY[$letter];

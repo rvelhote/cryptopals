@@ -28,10 +28,54 @@ namespace Welhott\Cryptopals\Set1;
  */
 class Challenge6
 {
+    private $message;
+
     /**
      * Challenge6 constructor.
+     * @param string $message
      */
-    public function __construct()
+    public function __construct(string $message)
+    {
+        if(ctype_xdigit($message)) {
+            $message = hex2bin($message);
+        }
+        $this->message = $message;
+    }
+
+    public function bruteForceKey() {
+        $keysize = 3;
+        $blocks = str_split($this->message, $keysize);
+
+        $transposedBlocks = [];
+        for($i = 0; $i < $keysize; $i++) {
+            $newBlock = [];
+            foreach ($blocks as $block) {
+                if (isset($block[$i])) {
+                    $newBlock[] = $block[$i];
+                }
+            }
+            $transposedBlocks[] = $newBlock;
+        }
+
+        $transposedBlocks = array_map('implode', $transposedBlocks);
+
+        $key = '';
+
+        foreach($transposedBlocks as $block) {
+            $c = new Challenge3($block);
+            $key .= $c->bruteForceKey();
+        }
+
+        return $key;
+    }
+
+    public function decrypt(string $key)
+    {
+        $c = new Challenge3($this->message);
+        return $c->decrypt($key);
+    }
+
+    public function transpose(array $array)
     {
 
     }

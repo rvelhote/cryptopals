@@ -86,6 +86,9 @@ class Challenge3
      */
     public function __construct(string $input)
     {
+        if(ctype_xdigit($input)) {
+            $input = hex2bin($input);
+        }
         $this->message = $input;
     }
 
@@ -96,15 +99,6 @@ class Challenge3
     public function getMessage() : string
     {
         return $this->message;
-    }
-
-    /**
-     * Obtain the raw bytes of the input.
-     * @return string The raw binary output of the input string.
-     */
-    public function getRawBytes() : string
-    {
-        return hex2bin($this->getMessage());
     }
 
     /**
@@ -125,9 +119,8 @@ class Challenge3
      */
     public function decrypt(string $key) : string
     {
-        $raw = $this->getRawBytes();
-        $key = str_repeat($key, mb_strlen($raw));
-        return trim($raw ^ $key);
+        $key = str_repeat($key, mb_strlen($this->message));
+        return trim($this->message ^ $key);
     }
 
     /**

@@ -42,31 +42,84 @@ class Challenge6
         $this->message = $message;
     }
 
+    /**
+     * Brute force the key.
+     *
+     * As usual with these Cryptopals challenge, I got stuck for a long long time due to the instructions being unclear.
+     * For cracking the Keysize the challenge said that we should take the Hamming distance from a varying chunk of the
+     * encrypted text and normalize it by dividing by the keysize.
+     *
+     * It turned out to be necessary to compare the chunks to each of the other chunks, count the number of
+     * calculations done and divide not only by keysize but also by the ammount of Hamming Distance calculations.
+     *
+     * I only found this by looking up other PHP solutions :(
+     *
+     * @return string The key that was used to encrypt the message.
+     *
+     * FIXME Performance improvements are very necessary. More than 2 minutes to decrypt the file
+     * TODO Organize this method better. Split and test.
+     */
     public function bruteForceKey() {
-        $keysize = 3;
-        $blocks = str_split($this->message, $keysize);
+        $keysizeCandidates = [];
 
-        $transposedBlocks = [];
-        for($i = 0; $i < $keysize; $i++) {
-            $newBlock = [];
-            foreach ($blocks as $block) {
-                if (isset($block[$i])) {
-                    $newBlock[] = $block[$i];
+        for($keysize = 2; $keysize <= 40; $keysize++) {
+            $chunks = str_split($this->message, $keysize);
+            $chunkLength = count($chunks);
+            $hammingDistance = 0;
+            $totalHammingCalculations = 0;
+
+            for($i = 0; $i < $chunkLength; $i++) {
+                for($j = $i + 1; $j < $chunkLength; $j++) {
+                    $hammingDistance += $this->hammingDistance($chunks[$i], $chunks[$j]);
+                    $totalHammingCalculations++;
                 }
             }
-            $transposedBlocks[] = $newBlock;
+
+            $keysizeCandidates[$keysize] = $hammingDistance / $keysize / $totalHammingCalculations;
         }
 
-        $transposedBlocks = array_map('implode', $transposedBlocks);
+        asort($keysizeCandidates, SORT_ASC);
+        $keysizeCandidates = array_keys($keysizeCandidates);
+        $keysizeCandidates = array_splice($keysizeCandidates, 0, 3);
 
-        $key = '';
+        foreach($keysizeCandidates as $keysize) {
+            $blocks = str_split($this->message, $keysize);
 
-        foreach($transposedBlocks as $block) {
-            $c = new Challenge3($block);
-            $key .= $c->bruteForceKey();
+            $transposedBlocks = [];
+            for ($i = 0; $i < $keysize; $i++) {
+                $newBlock = [];
+                foreach ($blocks as $block) {
+                    if (isset($block[$i])) {
+                        $newBlock[] = $block[$i];
+                    }
+                }
+                $transposedBlocks[] = $newBlock;
+            }
+
+            $transposedBlocks = array_map('implode', $transposedBlocks);
+
+            $key = '';
+
+            foreach ($transposedBlocks as $block) {
+                $c = new Challenge3($block);
+                $key .= $c->bruteForceKey();
+            }
+
+            $keyCandidates[] = $key;
         }
 
-        return $key;
+        $scores = [];
+        foreach($keyCandidates as $key) {
+            $c = new Challenge3($this->message);
+            $scores[$key] = $c->score($c->decrypt($key));
+        }
+
+        // FIXME asort doesn't work with negative values? Really? :/
+        uasort($scores, function($a, $b) {
+            return $a < $b;
+        });
+
+        return array_keys($scores)[0];
     }
 
     public function decrypt(string $key)

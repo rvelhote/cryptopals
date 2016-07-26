@@ -33,12 +33,10 @@ class Challenge6
     /**
      * Challenge6 constructor.
      * @param string $message
+     * @param bool $isHex
      */
     public function __construct(string $message)
     {
-        if(ctype_xdigit($message)) {
-            $message = hex2bin($message);
-        }
         $this->message = $message;
     }
 

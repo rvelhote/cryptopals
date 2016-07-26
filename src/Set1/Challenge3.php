@@ -71,7 +71,16 @@ class Challenge3
         '.' => '7.000',
         ',' => '7.000',
         ';' => '7.000',
-        '\'' => '7.000',
+        '1' => '7.000',
+        '2' => '7.000',
+        '3' => '7.000',
+        '4' => '7.000',
+        '5' => '7.000',
+        '6' => '7.000',
+        '7' => '7.000',
+        '8' => '7.000',
+        '9' => '7.000',
+        '0' => '7.000',
     ];
 
     /**
@@ -86,9 +95,6 @@ class Challenge3
      */
     public function __construct(string $input)
     {
-        if(ctype_xdigit($input)) {
-            $input = hex2bin($input);
-        }
         $this->message = $input;
     }
 
@@ -109,7 +115,7 @@ class Challenge3
      */
     public static function encrypt(string $message, string $key) : string
     {
-        return bin2hex($message ^ str_repeat($key, mb_strlen($message)));
+        return $message ^ str_repeat($key, mb_strlen($message));
     }
 
     /**
@@ -180,6 +186,11 @@ class Challenge3
         $decrypted = mb_strtolower($decrypted);
 
         for ($i = 0; $i < $decryptedLength; $i++) {
+            if(!isset($decrypted[$i])) {
+                $score -= 100;
+                continue;
+            }
+
             $letter = $decrypted[$i];
 
             if (isset(static::$FREQUENCY[$letter])) {

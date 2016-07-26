@@ -33,7 +33,7 @@ class Challenge3Test extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
-        $input = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736';
+        $input = hex2bin('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736');
         $solution = 'Cooking MC\'s like a pound of bacon';
         $solutionKey = 'X';
 

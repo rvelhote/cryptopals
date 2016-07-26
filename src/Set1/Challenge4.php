@@ -57,7 +57,7 @@ class Challenge4
         $candidates = [];
 
         foreach ($this->secrets as $secret) {
-            $challenge = new Challenge3($secret);
+            $challenge = new Challenge3(hex2bin($secret));
             $key = $challenge->bruteForceKey();
 
             $candidates[] = [

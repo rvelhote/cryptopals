@@ -60,7 +60,9 @@ class Challenge6
     public function bruteForceKey() {
         $keysizeCandidates = [];
 
-        for($keysize = 2; $keysize <= 40; $keysize++) {
+        $maxKeysize = mb_strlen($this->message) / 10 > 40 ? 40 : intval(mb_strlen($this->message) / 10);
+
+        for($keysize = 2; $keysize <= $maxKeysize; $keysize++) {
             $chunks = str_split($this->message, $keysize);
             $chunkLength = count($chunks);
             $hammingDistance = 0;

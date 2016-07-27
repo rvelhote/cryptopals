@@ -31,19 +31,19 @@ use Welhott\Cryptopals\Set1\Challenge6;
  */
 class Challenge6Test extends PHPUnit_Framework_TestCase
 {
-//    public function testChallenge()
-//    {
-//        $message = base64_decode(implode('', preg_split('/\r\n|\r|\n/', file_get_contents("../../dataset/set1/challenge6.txt"))));
-//
-//        $expectedKey = 'Terminator X: Bring the noise';
-//
-//        $challenge = new Challenge6($message);
-//        $actualKey = $challenge->bruteForceKey();
-////        $actualMessage = $challenge->decrypt($actualKey);
-//
-//        $this->assertEquals($expectedKey, $actualKey);
-//
-//    }
+    public function testChallenge()
+    {
+        $message = base64_decode(implode('', preg_split('/\r\n|\r|\n/', file_get_contents("../../dataset/set1/challenge6.txt"))));
+
+        $expectedKey = 'Terminator X: Bring the noise';
+
+        $challenge = new Challenge6($message);
+        $actualKey = $challenge->bruteForceKey();
+//        $actualMessage = $challenge->decrypt($actualKey);
+
+        $this->assertEquals($expectedKey, $actualKey);
+
+    }
 
     public function testMessageFromChallenge5()
     {

@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1;
+namespace Welhott\Cryptopals\Set1\Challenge3;
 
 /**
  * Class Challenge3
@@ -29,10 +29,10 @@ namespace Welhott\Cryptopals\Set1;
  * said that the secret message was encrypted with a single character. This is true in a way but it's not A single
  * character, it's the same character
  *
- * @package Cryptopals\Set1
+ * @package Cryptopals\Set1\Challenge3
  * @see http://cryptopals.com/sets/1/challenges/3
  */
-class Challenge3
+class SingleByteXOR
 {
     /**
      * Wikipedia mentions that the punctuation characters and digits collectively occupy the fourth position so I have

@@ -22,6 +22,8 @@
  */
 namespace Welhott\Cryptopals\Set1;
 
+use Welhott\Cryptopals\Set1\Challenge3\SingleByteXOR;
+
 /**
  * Class Challenge5
  * @package Welhott\Cryptopals\Set1
@@ -101,7 +103,7 @@ class Challenge6
             $key = '';
 
             foreach ($transposedBlocks as $block) {
-                $c = new Challenge3($block);
+                $c = new SingleByteXOR($block);
                 $key .= $c->bruteForceKey();
             }
 
@@ -110,7 +112,7 @@ class Challenge6
 
         $scores = [];
         foreach($keyCandidates as $key) {
-            $c = new Challenge3($this->message);
+            $c = new SingleByteXOR($this->message);
             $scores[$key] = $c->score($c->decrypt($key));
         }
 
@@ -124,7 +126,7 @@ class Challenge6
 
     public function decrypt(string $key)
     {
-        $c = new Challenge3($this->message);
+        $c = new SingleByteXOR($this->message);
         return $c->decrypt($key);
     }
 

@@ -20,14 +20,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge3;
 
 use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge3;
+use Welhott\Cryptopals\Set1\Challenge3\SingleByteXOR;
 
 /**
  * Class Challenge3Test
- * @package Welhott\Cryptopals\Tests\Set1
+ * @package Welhott\Cryptopals\Tests\Set1\Challenge3
  */
 class Challenge3Test extends PHPUnit_Framework_TestCase
 {
@@ -37,7 +37,7 @@ class Challenge3Test extends PHPUnit_Framework_TestCase
         $solution = 'Cooking MC\'s like a pound of bacon';
         $solutionKey = 'X';
 
-        $challenge = new Challenge3($input);
+        $challenge = new SingleByteXOR($input);
 
         $key = $challenge->bruteForceKey();
         $decrypted = $challenge->decrypt($key);
@@ -50,7 +50,7 @@ class Challenge3Test extends PHPUnit_Framework_TestCase
         $solution = 'These pretzels are making me thirsty';
         $solutionKey = 'r';
 
-        $challenge = new Challenge3(Challenge3::encrypt($solution, $solutionKey));
+        $challenge = new SingleByteXOR(SingleByteXOR::encrypt($solution, $solutionKey));
         $key = $challenge->bruteForceKey();
         $decrypted = $challenge->decrypt($key);
 

@@ -22,6 +22,8 @@
  */
 namespace Welhott\Cryptopals\Set1;
 
+use Welhott\Cryptopals\Set1\Challenge3\SingleByteXOR;
+
 /**
  * Class Challenge3
  *
@@ -57,7 +59,7 @@ class Challenge4
         $candidates = [];
 
         foreach ($this->secrets as $secret) {
-            $challenge = new Challenge3(hex2bin($secret));
+            $challenge = new SingleByteXOR(hex2bin($secret));
             $key = $challenge->bruteForceKey();
 
             $candidates[] = [

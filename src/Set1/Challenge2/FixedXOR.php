@@ -20,27 +20,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1;
-
-use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge2;
+namespace Welhott\Cryptopals\Set1\Challenge2;
 
 /**
- * Class Challenge1Test
- * @package Welhott\Cryptopals\Tests\Set1
+ * Class Challenge2
+ * @package Cryptopals\Set1\Challenge2
+ * @see http://cryptopals.com/sets/1/challenges/2
  */
-class Challenge2Test extends PHPUnit_Framework_TestCase
+class FixedXOR
 {
     /**
-     *
+     * The message that we want to handle.
+     * @var string
      */
-    public function testChallenge()
-    {
-        $input = '1c0111001f010100061a024b53535009181c';
-        $against = '686974207468652062756c6c277320657965';
-        $expected = '746865206b696420646f6e277420706c6179';
+    private $message = '';
 
-        $actual = Challenge2::produceXorCombination($input, $against);
-        $this->assertEquals($expected, $actual);
+    /**
+     * Challenge2 constructor.
+     * @param string $message The message that we want to handle.
+     */
+    public function __construct(string $message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * Produce a XOR combination of the the parameter with the string that was initialized in the constructor.
+     * @param string $against The string we want to combine the input against.
+     * @return string The result of the XOR combination in hexadecimal.
+     */
+    public function xor(string $against) : string
+    {
+        $rawInput = hex2bin($this->message);
+        $rawAgainst = hex2bin($against);
+
+        return bin2hex($rawInput ^ $rawAgainst);
     }
 }

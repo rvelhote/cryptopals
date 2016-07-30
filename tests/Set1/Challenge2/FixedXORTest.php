@@ -20,26 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge2;
+
+use PHPUnit_Framework_TestCase;
+use Welhott\Cryptopals\Set1\Challenge2\FixedXOR;
 
 /**
- * Class Challenge2
- * @package Cryptopals\Set1
- * @see http://cryptopals.com/sets/1/challenges/2
+ * Class Challenge1Test
+ * @package Welhott\Cryptopals\Tests\Set1
  */
-class Challenge2
+class FixedXORTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Produce the XOR combination of two hexadecimal strings.
-     * @param string $input The input string.
-     * @param string $against The string we want to combine the input against.
-     * @return string The result of the XOR combination in hexadecimal
-     */
-    public static function produceXorCombination(string $input, string $against) : string
+    public function testChallenge()
     {
-        $rawInput = hex2bin($input);
-        $rawAgainst = hex2bin($against);
+        $input = '1c0111001f010100061a024b53535009181c';
+        $against = '686974207468652062756c6c277320657965';
+        $expected = '746865206b696420646f6e277420706c6179';
 
-        return bin2hex($rawInput ^ $rawAgainst);
+        $challenge = new FixedXOR($input);
+        $actual = $challenge->xor($against);
+
+        $this->assertEquals($expected, $actual);
     }
 }

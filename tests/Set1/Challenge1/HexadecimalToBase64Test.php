@@ -20,24 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge1;
+
+use PHPUnit_Framework_TestCase;
+use Welhott\Cryptopals\Set1\Challenge1\HexadecimalToBase64;
 
 /**
- * Class Challenge1
- * @package Cryptopals\Set1
+ * Class Challenge1Test
+ * @package Welhott\Cryptopals\Tests\Set1
  * @see http://cryptopals.com/sets/1/challenges/1
  */
-class Challenge1
+class HexadecimalToBase64Test extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Converts a hexadecimal value into Base64 format.
-     * @param string $input The input string.
-     * @return string The result string
-     */
-    public static function hex2b64(string $input) : string
+    public function testChallenge()
     {
-        $rawInput = hex2bin($input);
-        $rawInputBase64 = base64_encode($rawInput);
-        return $rawInputBase64;
+        $string = '49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d';
+        $expected = 'SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t';
+
+        $challenge = new HexadecimalToBase64($string);
+        $actual = $challenge->convert();
+
+        $this->assertEquals($expected, $actual);
     }
 }

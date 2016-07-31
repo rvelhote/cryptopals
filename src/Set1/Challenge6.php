@@ -60,49 +60,14 @@ class Challenge6
      * TODO Organize this method better. Split and test.
      */
     public function bruteForceKey() {
-        $keysizeCandidates = [];
-
-        $maxKeysize = mb_strlen($this->message) / 10 > 40 ? 40 : intval(mb_strlen($this->message) / 10);
-
-        for($keysize = 2; $keysize <= $maxKeysize; $keysize++) {
-            $chunks = str_split($this->message, $keysize);
-            $chunkLength = count($chunks);
-            $hammingDistance = 0;
-            $totalHammingCalculations = 0;
-
-            for($i = 0; $i < $chunkLength; $i++) {
-                for($j = $i + 1; $j < $chunkLength; $j++) {
-                    $hammingDistance += $this->hammingDistance($chunks[$i], $chunks[$j]);
-                    $totalHammingCalculations++;
-                }
-            }
-
-            $keysizeCandidates[$keysize] = $hammingDistance / $keysize / $totalHammingCalculations;
-        }
-
-        asort($keysizeCandidates, SORT_ASC);
-        $keysizeCandidates = array_keys($keysizeCandidates);
-        $keysizeCandidates = array_splice($keysizeCandidates, 0, 3);
+        $keysizeCandidates = $this->getKeysizeCandidates();
 
         foreach($keysizeCandidates as $keysize) {
             $blocks = str_split($this->message, $keysize);
 
-            $transposedBlocks = [];
-            for ($i = 0; $i < $keysize; $i++) {
-                $newBlock = [];
-                foreach ($blocks as $block) {
-                    if (isset($block[$i])) {
-                        $newBlock[] = $block[$i];
-                    }
-                }
-                $transposedBlocks[] = $newBlock;
-            }
-
-            $transposedBlocks = array_map('implode', $transposedBlocks);
-
             $key = '';
 
-            foreach ($transposedBlocks as $block) {
+            foreach ($this->transpose($blocks, $keysize) as $block) {
                 $c = new SingleByteXOR($block);
                 $key .= $c->bruteForceKey();
             }
@@ -124,15 +89,66 @@ class Challenge6
         return array_keys($scores)[0];
     }
 
+    /**
+     * @param string $key
+     * @return string
+     */
     public function decrypt(string $key)
     {
         $c = new SingleByteXOR($this->message);
         return $c->decrypt($key);
     }
 
-    public function transpose(array $array)
+    /**
+     * @param array $blocks
+     * @param int $keysize
+     * @return array
+     */
+    private function transpose(array $blocks, int $keysize) : array
     {
+        $transposedBlocks = [];
+        for ($i = 0; $i < $keysize; $i++) {
+            $newBlock = [];
+            foreach ($blocks as $block) {
+                if (isset($block[$i])) {
+                    $newBlock[] = $block[$i];
+                }
+            }
+            $transposedBlocks[] = $newBlock;
+        }
 
+        return array_map('implode', $transposedBlocks);
+    }
+
+    /**
+     * @param int $top
+     * @param int $minKeysize
+     * @param int $maxKeysize
+     * @return array
+     */
+    private function getKeysizeCandidates(int $top = 3, int $minKeysize = 2, int $maxKeysize = 40) : array
+    {
+        $candidates = [];
+
+        for($keysize = $minKeysize; $keysize <= $maxKeysize; $keysize++) {
+            $chunks = str_split($this->message, $keysize);
+            $chunkLength = count($chunks);
+            $hammingDistance = 0;
+            $totalHammingCalculations = 0;
+
+            for($i = 0; $i < $chunkLength; $i++) {
+                for($j = $i + 1; $j < $chunkLength; $j++) {
+                    $hammingDistance += $this->hammingDistance($chunks[$i], $chunks[$j]);
+                    $totalHammingCalculations++;
+                }
+            }
+
+            $candidates[$keysize] = $hammingDistance / $keysize / $totalHammingCalculations;
+        }
+
+        asort($candidates);
+        $candidates = array_keys($candidates);
+        return array_splice($candidates, 0, $top);
     }
 
     /**

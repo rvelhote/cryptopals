@@ -20,25 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge4;
 
 use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge3;
-use Welhott\Cryptopals\Set1\Challenge4;
+use Welhott\Cryptopals\Set1\Challenge4\DetectSingleByteXOR;
 
 /**
- * Class Challenge3Test
- * @package Welhott\Cryptopals\Tests\Set1
+ * Class DetectSingleByteXORTest
+ * @package Welhott\Cryptopals\Tests\Set1\Challenge4
  */
-class Challenge4Test extends PHPUnit_Framework_TestCase
+class DetectSingleByteXORTest extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
         $expected = 'Now that the party is jumping';
         $expectedKey = '5';
 
-        $challenge = new Challenge4('../../dataset/set1/challenge4.txt');
-        $actual = $challenge->findBestCandidate($challenge->decrypt());
+        $challenge = new DetectSingleByteXOR('challenge4.txt');
+        $actual = $challenge->detect();
 
         $this->assertEquals($expectedKey, $actual['key']);
         $this->assertEquals($expected, $actual['attempt']);

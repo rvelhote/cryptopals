@@ -20,21 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1;
+namespace Welhott\Cryptopals\Set1\Challenge4;
 
 use Welhott\Cryptopals\Set1\Challenge3\SingleByteXOR;
 
 /**
- * Class Challenge3
- *
- * This exercise was quite difficult until the AHA! moment. I felt the wording of the exercise was confusing because it
- * said that the secret message was encrypted with a single character. This is true in a way but it's not A single
- * character, it's the same character
- *
- * @package Cryptopals\Set1
- * @see http://cryptopals.com/sets/1/challenges/3
+ * Class DetectSingleByteXOR
+ * @package Cryptopals\Set1\Challenge4
+ * @see http://cryptopals.com/sets/1/challenges/4
  */
-class Challenge4
+class DetectSingleByteXOR
 {
     /**
      * @var array
@@ -47,19 +42,32 @@ class Challenge4
      */
     public function __construct(string $path)
     {
-        $this->secrets = preg_split('/\r\n|\r|\n/', file_get_contents($path));
+        $this->secrets = array_map('hex2bin', preg_split('/\r\n|\r|\n/', file_get_contents($path)));
     }
 
     /**
-     * Decrypt all the lines in the file and return decryption information about them.
-     * @return array Each of the lines decrypted
+     * Detect the line in the file that was encrypted with SingleByteXOR.
+     * @return array Information about the line that was encrypted with SingleByteXOR.
      */
-    public function decrypt() : array
+    public function detect() : array
+    {
+        return $this->findBestCandidate($this->getDecryptionCandidates());
+    }
+
+    /**
+     * Brute-force the key in order to discover the best candidate key for each of the lines.
+     * The returned array will return information about each line:
+     * - key: The best key that was brute-forced
+     * - attempt: The decryption attempt after using the brute-forced key
+     * - score: The score that the key
+     * @return array The list of candidates with information about each of the lines.
+     */
+    public function getDecryptionCandidates() : array
     {
         $candidates = [];
 
         foreach ($this->secrets as $secret) {
-            $challenge = new SingleByteXOR(hex2bin($secret));
+            $challenge = new SingleByteXOR($secret);
             $key = $challenge->bruteForceKey();
 
             $candidates[] = [
@@ -73,11 +81,12 @@ class Challenge4
     }
 
     /**
-     * Find the best candidate from all the decrypted lines.
+     * After all lines are brute-forced for the decryption key the one with the best score will be selected as the
+     * correct one. You may find the full list of candidates by using getDecryptionCandidates().
      * @param array $candidates The list of candidates
      * @return array Information about the candidate
      */
-    public function findBestCandidate(array $candidates) : array
+    private function findBestCandidate(array $candidates) : array
     {
         usort($candidates, function ($a, $b) {
             if ($a['score'] == $b['score']) {

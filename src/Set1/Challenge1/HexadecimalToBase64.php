@@ -46,7 +46,6 @@ class HexadecimalToBase64
     /**
      * Converts a hexadecimal value into Base64 format. We should always operate on raw bytes, never on encoded
      * strings. Only use hex and base64 for pretty-printing.
-     * @param string $input The input string
      * @return string The result string
      */
     public function convert() : string

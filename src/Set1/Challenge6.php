@@ -61,6 +61,7 @@ class Challenge6
      */
     public function bruteForceKey() {
         $keysizeCandidates = $this->getKeysizeCandidates();
+        $keyCandidates = [];
 
         foreach($keysizeCandidates as $keysize) {
             $blocks = str_split($this->message, $keysize);

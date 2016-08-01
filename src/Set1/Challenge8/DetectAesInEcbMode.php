@@ -26,7 +26,7 @@ namespace Welhott\Cryptopals\Set1\Challenge8;
  * Class Challenge7
  * @package Welhott\Cryptopals\Set1
  */
-class Challenge8
+class DetectAesInEcbMode
 {
     /**
      * @var string

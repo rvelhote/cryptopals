@@ -20,49 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1\Challenge6;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge5;
 
 use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge6\Challenge6;
+use Welhott\Cryptopals\Set1\Challenge5\RepeatingKeyXor;
 
 /**
  * Class Challenge5Test
  * @package Welhott\Cryptopals\Tests\Set1
  */
-class Challenge6Test extends PHPUnit_Framework_TestCase
+class RepeatingKeyXorTest extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
-        $message = base64_decode(implode('',
-            preg_split('/\r\n|\r|\n/', file_get_contents("challenge6.txt"))));
+        $expected = '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652' .
+            'a3124333a653e2b2027630c692b20283165286326302e27282f';
 
-        $expectedKey = 'Terminator X: Bring the noise';
+        // FIXME Using single quotes was causing trouble with the \n. Works fine with double quotes.
+        $message = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal";
+        $key = 'ICE';
 
-        $challenge = new Challenge6($message);
-        $actualKey = $challenge->bruteForceKey();
-//        $actualMessage = $challenge->decrypt($actualKey);
-
-        $this->assertEquals($expectedKey, $actualKey);
-
-    }
-
-    public function testHammingDistance()
-    {
-        $challenge = new Challenge6('FIXME ;)');
-
-        $string1 = 'this is a test';
-        $string2 = 'wokka wokka!!!';
-
-        $this->assertEquals(37, $challenge->hammingDistance($string1, $string2), "Distance is not 37");
-    }
-
-    public function testInvalidHammingDistance()
-    {
-        $challenge = new Challenge6('FIXME ;)');
-
-        $string1 = 'these strings';
-        $string2 = 'should be the same length';
-
-        $this->assertEquals(-1, $challenge->hammingDistance($string1, $string2));
+        $challenge = new RepeatingKeyXor($message, $key);
+        $this->assertEquals($expected, $challenge->encrypt());
     }
 }

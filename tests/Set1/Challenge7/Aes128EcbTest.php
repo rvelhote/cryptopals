@@ -20,49 +20,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1\Challenge5;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge7;
+
+use PHPUnit_Framework_TestCase;
+use Welhott\Cryptopals\Set1\Challenge7\Aes128Ecb;
 
 /**
- * Class Challenge5
- * @package Welhott\Cryptopals\Set1
+ * Class Challenge5Test
+ * @package Welhott\Cryptopals\Tests\Set1
  */
-class Challenge5
+class Aes128EcbTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $message = '';
-
-    /**
-     * @var string
-     */
-    private $key = '';
-
-    /**
-     * Challenge5 constructor.
-     * @param string $message The message we want to encrypt.
-     * @param string $key The key we want to encrypt the message with.
-     */
-    public function __construct(string $message, string $key)
+    public function testChallenge()
     {
-        $this->message = $message;
-        $this->key = $key;
-    }
+        $message = base64_decode(implode('',
+            preg_split('/\r\n|\r|\n/', file_get_contents("challenge7.txt"))));
+        $key = 'YELLOW SUBMARINE';
 
-    /**
-     * Encrypt the message with the key using repeating-key XOR.
-     * @return string The encrypted message
-     */
-    public function encrypt() : string
-    {
-        $encrypted = '';
-        $messageLength = mb_strlen($this->message);
-        $keyLength = mb_strlen($this->key);
+        $challenge = new Aes128Ecb($message);
+        $haystack = $challenge->decrypt($key);
 
-        for ($i = 0; $i < $messageLength; $i++) {
-            $encrypted[] = $this->message[$i] ^ $this->key[$i % $keyLength];
-        }
+        $needle = "Vanilla's on the mike, man I'm not lazy.";
 
-        return bin2hex(implode('', $encrypted));
+        $this->assertContains($needle, $haystack);
     }
 }

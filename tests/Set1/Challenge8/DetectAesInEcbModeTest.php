@@ -20,35 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1\Challenge7;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge8;
+
+use PHPUnit_Framework_TestCase;
+use Welhott\Cryptopals\Set1\Challenge8\DetectAesInEcbMode;
 
 /**
- * Class Challenge7
- * @package Welhott\Cryptopals\Set1
+ * Class Challenge5Test
+ * @package Welhott\Cryptopals\Tests\Set1
  */
-class Challenge7
+class DetectAesInEcbModeTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $message;
-
-    /**
-     * Challenge7 constructor.
-     * @param string $message
-     */
-    public function __construct(string $message)
+    public function testChallenge()
     {
-        $this->message = $message;
-    }
+        $lines = preg_split('/\r\n|\r|\n/', file_get_contents("challenge8.txt"));
+        $possibilities = [];
 
-    /**
-     * @param string $key
-     * @param string $algo
-     * @return string
-     */
-    public function decrypt(string $key, string $algo = 'AES-128-ECB') : string
-    {
-        return openssl_decrypt($this->message, $algo, $key, OPENSSL_RAW_DATA);
+        foreach ($lines as $n => $line) {
+            $challenge = new DetectAesInEcbMode($line);
+            $possibilities[$n] = $challenge->getRepeatedBlocks();
+        }
+
+        $expectedBestMatch = 132;
+        $actualBestMatch = DetectAesInEcbMode::findBestMatch($possibilities);
+        $this->assertEquals($expectedBestMatch, $actualBestMatch);
     }
 }

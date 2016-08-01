@@ -28,7 +28,7 @@ use Welhott\Cryptopals\Set1\Challenge3\SingleByteXOR;
  * Class Challenge5
  * @package Welhott\Cryptopals\Set1
  */
-class Challenge6
+class BreakRepeatingKeyXor
 {
     private $message;
 

@@ -20,28 +20,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1\Challenge7;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge6;
 
 use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge7\Challenge7;
+use Welhott\Cryptopals\Set1\Challenge6\BreakRepeatingKeyXor;
 
 /**
  * Class Challenge5Test
  * @package Welhott\Cryptopals\Tests\Set1
  */
-class Challenge7Test extends PHPUnit_Framework_TestCase
+class BreakRepeatingKeyXorTest extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
         $message = base64_decode(implode('',
-            preg_split('/\r\n|\r|\n/', file_get_contents("challenge7.txt"))));
-        $key = 'YELLOW SUBMARINE';
+            preg_split('/\r\n|\r|\n/', file_get_contents("challenge6.txt"))));
 
-        $challenge = new Challenge7($message);
-        $haystack = $challenge->decrypt($key);
+        $expectedKey = 'Terminator X: Bring the noise';
 
-        $needle = "Vanilla's on the mike, man I'm not lazy.";
+        $challenge = new BreakRepeatingKeyXor($message);
+        $actualKey = $challenge->bruteForceKey();
+//        $actualMessage = $challenge->decrypt($actualKey);
 
-        $this->assertContains($needle, $haystack);
+        $this->assertEquals($expectedKey, $actualKey);
+
+    }
+
+    public function testHammingDistance()
+    {
+        $challenge = new BreakRepeatingKeyXor('FIXME ;)');
+
+        $string1 = 'this is a test';
+        $string2 = 'wokka wokka!!!';
+
+        $this->assertEquals(37, $challenge->hammingDistance($string1, $string2), "Distance is not 37");
+    }
+
+    public function testInvalidHammingDistance()
+    {
+        $challenge = new BreakRepeatingKeyXor('FIXME ;)');
+
+        $string1 = 'these strings';
+        $string2 = 'should be the same length';
+
+        $this->assertEquals(-1, $challenge->hammingDistance($string1, $string2));
     }
 }

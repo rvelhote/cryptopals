@@ -20,27 +20,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1\Challenge5;
-
-use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge5\Challenge5;
+namespace Welhott\Cryptopals\Set1\Challenge7;
 
 /**
- * Class Challenge5Test
- * @package Welhott\Cryptopals\Tests\Set1
+ * Class Challenge7
+ * @package Welhott\Cryptopals\Set1
  */
-class Challenge5Test extends PHPUnit_Framework_TestCase
+class Aes128Ecb
 {
-    public function testChallenge()
+    /**
+     * @var string
+     */
+    private $message;
+
+    /**
+     * Challenge7 constructor.
+     * @param string $message
+     */
+    public function __construct(string $message)
     {
-        $expected = '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652' .
-            'a3124333a653e2b2027630c692b20283165286326302e27282f';
+        $this->message = $message;
+    }
 
-        // FIXME Using single quotes was causing trouble with the \n. Works fine with double quotes.
-        $message = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal";
-        $key = 'ICE';
-
-        $challenge = new Challenge5($message, $key);
-        $this->assertEquals($expected, $challenge->encrypt());
+    /**
+     * @param string $key
+     * @param string $algo
+     * @return string
+     */
+    public function decrypt(string $key, string $algo = 'AES-128-ECB') : string
+    {
+        return openssl_decrypt($this->message, $algo, $key, OPENSSL_RAW_DATA);
     }
 }

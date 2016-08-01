@@ -46,7 +46,8 @@ class Challenge3Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($solution, $decrypted);
     }
 
-    public function testAnotherChallenge() {
+    public function testAnotherChallenge()
+    {
         $solution = 'These pretzels are making me thirsty';
         $solutionKey = 'r';
 

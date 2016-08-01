@@ -33,7 +33,8 @@ class Challenge7Test extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
-        $message = base64_decode(implode('', preg_split('/\r\n|\r|\n/', file_get_contents("../../dataset/set1/challenge7.txt"))));
+        $message = base64_decode(implode('',
+            preg_split('/\r\n|\r|\n/', file_get_contents("../../dataset/set1/challenge7.txt"))));
         $key = 'YELLOW SUBMARINE';
 
         $challenge = new Challenge7($message);

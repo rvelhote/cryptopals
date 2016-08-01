@@ -187,7 +187,7 @@ class SingleByteXOR
         $decrypted = mb_strtolower($decrypted);
 
         for ($i = 0; $i < $decryptedLength; $i++) {
-            if(!isset($decrypted[$i])) {
+            if (!isset($decrypted[$i])) {
                 $score -= 100;
                 continue;
             }

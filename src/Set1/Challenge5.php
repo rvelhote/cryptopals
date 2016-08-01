@@ -59,7 +59,7 @@ class Challenge5
         $messageLength = mb_strlen($this->message);
         $keyLength = mb_strlen($this->key);
 
-        for($i = 0; $i < $messageLength; $i++) {
+        for ($i = 0; $i < $messageLength; $i++) {
             $encrypted[] = $this->message[$i] ^ $this->key[$i % $keyLength];
         }
 

@@ -31,11 +31,12 @@ use Welhott\Cryptopals\Set1\Challenge8;
  */
 class Challenge8Test extends PHPUnit_Framework_TestCase
 {
-    public function testChallenge() {
+    public function testChallenge()
+    {
         $lines = preg_split('/\r\n|\r|\n/', file_get_contents("../../dataset/set1/challenge8.txt"));
         $possibilities = [];
 
-        foreach($lines as $n => $line) {
+        foreach ($lines as $n => $line) {
             $challenge = new Challenge8($line);
             $possibilities[$n] = $challenge->getRepeatedBlocks();
         }

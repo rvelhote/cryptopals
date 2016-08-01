@@ -58,11 +58,12 @@ class Challenge6
      * FIXME Performance improvements are very necessary. More than 2 minutes to decrypt the file
      * TODO Organize this method better. Split and test.
      */
-    public function bruteForceKey() {
+    public function bruteForceKey()
+    {
         $keysizeCandidates = $this->getKeysizeCandidates();
         $keyCandidates = [];
 
-        foreach($keysizeCandidates as $keysize) {
+        foreach ($keysizeCandidates as $keysize) {
             $blocks = str_split($this->message, $keysize);
 
             $key = '';
@@ -76,13 +77,13 @@ class Challenge6
         }
 
         $scores = [];
-        foreach($keyCandidates as $key) {
+        foreach ($keyCandidates as $key) {
             $c = new SingleByteXOR($this->message);
             $scores[$key] = $c->score($c->decrypt($key));
         }
 
         // FIXME asort doesn't work with negative values? Really? :/
-        uasort($scores, function($a, $b) {
+        uasort($scores, function ($a, $b) {
             return $a < $b;
         });
 
@@ -130,14 +131,14 @@ class Challenge6
     {
         $candidates = [];
 
-        for($keysize = $minKeysize; $keysize <= $maxKeysize; $keysize++) {
+        for ($keysize = $minKeysize; $keysize <= $maxKeysize; $keysize++) {
             $chunks = str_split($this->message, $keysize);
             $chunkLength = count($chunks);
             $hammingDistance = 0;
             $totalHammingCalculations = 0;
 
-            for($i = 0; $i < $chunkLength; $i++) {
-                for($j = $i + 1; $j < $chunkLength; $j++) {
+            for ($i = 0; $i < $chunkLength; $i++) {
+                for ($j = $i + 1; $j < $chunkLength; $j++) {
                     $hammingDistance += $this->hammingDistance($chunks[$i], $chunks[$j]);
                     $totalHammingCalculations++;
                 }
@@ -168,11 +169,11 @@ class Challenge6
         $lengthString1 = mb_strlen($string1);
         $lengthString2 = mb_strlen($string2);
 
-        if($lengthString1 != $lengthString2) {
+        if ($lengthString1 != $lengthString2) {
             return -1;
         }
 
-        for($i = 0; $i < $lengthString1; $i++) {
+        for ($i = 0; $i < $lengthString1; $i++) {
             $ham1 = gmp_init(ord($string1[$i]), 10);
             $ham2 = gmp_init(ord($string2[$i]), 10);
             $distance += gmp_hamdist($ham1, $ham2);

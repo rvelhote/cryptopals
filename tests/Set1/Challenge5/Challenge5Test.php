@@ -20,49 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge5;
+
+use PHPUnit_Framework_TestCase;
+use Welhott\Cryptopals\Set1\Challenge5\Challenge5;
 
 /**
- * Class Challenge5
- * @package Welhott\Cryptopals\Set1
+ * Class Challenge5Test
+ * @package Welhott\Cryptopals\Tests\Set1
  */
-class Challenge5
+class Challenge5Test extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $message = '';
-
-    /**
-     * @var string
-     */
-    private $key = '';
-
-    /**
-     * Challenge5 constructor.
-     * @param string $message The message we want to encrypt.
-     * @param string $key The key we want to encrypt the message with.
-     */
-    public function __construct(string $message, string $key)
+    public function testChallenge()
     {
-        $this->message = $message;
-        $this->key = $key;
-    }
+        $expected = '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652' .
+            'a3124333a653e2b2027630c692b20283165286326302e27282f';
 
-    /**
-     * Encrypt the message with the key using repeating-key XOR.
-     * @return string The encrypted message
-     */
-    public function encrypt() : string
-    {
-        $encrypted = '';
-        $messageLength = mb_strlen($this->message);
-        $keyLength = mb_strlen($this->key);
+        // FIXME Using single quotes was causing trouble with the \n. Works fine with double quotes.
+        $message = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal";
+        $key = 'ICE';
 
-        for ($i = 0; $i < $messageLength; $i++) {
-            $encrypted[] = $this->message[$i] ^ $this->key[$i % $keyLength];
-        }
-
-        return bin2hex(implode('', $encrypted));
+        $challenge = new Challenge5($message, $key);
+        $this->assertEquals($expected, $challenge->encrypt());
     }
 }

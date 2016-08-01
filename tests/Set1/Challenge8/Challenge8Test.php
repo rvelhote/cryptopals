@@ -20,28 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1;
+namespace Welhott\Cryptopals\Tests\Set1\Challenge8;
 
 use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge7;
+use Welhott\Cryptopals\Set1\Challenge8\Challenge8;
 
 /**
  * Class Challenge5Test
  * @package Welhott\Cryptopals\Tests\Set1
  */
-class Challenge7Test extends PHPUnit_Framework_TestCase
+class Challenge8Test extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
-        $message = base64_decode(implode('',
-            preg_split('/\r\n|\r|\n/', file_get_contents("../../dataset/set1/challenge7.txt"))));
-        $key = 'YELLOW SUBMARINE';
+        $lines = preg_split('/\r\n|\r|\n/', file_get_contents("challenge8.txt"));
+        $possibilities = [];
 
-        $challenge = new Challenge7($message);
-        $haystack = $challenge->decrypt($key);
+        foreach ($lines as $n => $line) {
+            $challenge = new Challenge8($line);
+            $possibilities[$n] = $challenge->getRepeatedBlocks();
+        }
 
-        $needle = "Vanilla's on the mike, man I'm not lazy.";
-
-        $this->assertContains($needle, $haystack);
+        $expectedBestMatch = 132;
+        $actualBestMatch = Challenge8::findBestMatch($possibilities);
+        $this->assertEquals($expectedBestMatch, $actualBestMatch);
     }
 }

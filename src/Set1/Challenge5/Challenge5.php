@@ -20,29 +20,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Tests\Set1;
-
-use PHPUnit_Framework_TestCase;
-use Welhott\Cryptopals\Set1\Challenge8;
+namespace Welhott\Cryptopals\Set1\Challenge5;
 
 /**
- * Class Challenge5Test
- * @package Welhott\Cryptopals\Tests\Set1
+ * Class Challenge5
+ * @package Welhott\Cryptopals\Set1
  */
-class Challenge8Test extends PHPUnit_Framework_TestCase
+class Challenge5
 {
-    public function testChallenge()
-    {
-        $lines = preg_split('/\r\n|\r|\n/', file_get_contents("../../dataset/set1/challenge8.txt"));
-        $possibilities = [];
+    /**
+     * @var string
+     */
+    private $message = '';
 
-        foreach ($lines as $n => $line) {
-            $challenge = new Challenge8($line);
-            $possibilities[$n] = $challenge->getRepeatedBlocks();
+    /**
+     * @var string
+     */
+    private $key = '';
+
+    /**
+     * Challenge5 constructor.
+     * @param string $message The message we want to encrypt.
+     * @param string $key The key we want to encrypt the message with.
+     */
+    public function __construct(string $message, string $key)
+    {
+        $this->message = $message;
+        $this->key = $key;
+    }
+
+    /**
+     * Encrypt the message with the key using repeating-key XOR.
+     * @return string The encrypted message
+     */
+    public function encrypt() : string
+    {
+        $encrypted = '';
+        $messageLength = mb_strlen($this->message);
+        $keyLength = mb_strlen($this->key);
+
+        for ($i = 0; $i < $messageLength; $i++) {
+            $encrypted[] = $this->message[$i] ^ $this->key[$i % $keyLength];
         }
 
-        $expectedBestMatch = 132;
-        $actualBestMatch = Challenge8::findBestMatch($possibilities);
-        $this->assertEquals($expectedBestMatch, $actualBestMatch);
+        return bin2hex(implode('', $encrypted));
     }
 }

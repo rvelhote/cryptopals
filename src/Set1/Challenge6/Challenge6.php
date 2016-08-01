@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace Welhott\Cryptopals\Set1;
+namespace Welhott\Cryptopals\Set1\Challenge6;
 
 use Welhott\Cryptopals\Set1\Challenge3\SingleByteXOR;
 

@@ -44,11 +44,19 @@ class Aes128Ecb
 
     /**
      * @param string $key
-     * @param string $algo
      * @return string
      */
-    public function decrypt(string $key, string $algo = 'AES-128-ECB') : string
+    public function decrypt(string $key) : string
     {
-        return openssl_decrypt($this->message, $algo, $key, OPENSSL_RAW_DATA);
+        return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $this->message, MCRYPT_MODE_ECB);
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function encrypt(string $key) : string
+    {
+        return mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $this->message, MCRYPT_MODE_ECB);
     }
 }

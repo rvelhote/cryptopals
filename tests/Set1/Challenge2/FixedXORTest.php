@@ -33,8 +33,8 @@ class FixedXORTest extends PHPUnit_Framework_TestCase
 {
     public function testChallenge()
     {
-        $input = '1c0111001f010100061a024b53535009181c';
-        $against = '686974207468652062756c6c277320657965';
+        $input = hex2bin('1c0111001f010100061a024b53535009181c');
+        $against = hex2bin('686974207468652062756c6c277320657965');
         $expected = '746865206b696420646f6e277420706c6179';
 
         $challenge = new FixedXOR($input);

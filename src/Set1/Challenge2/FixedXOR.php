@@ -51,9 +51,6 @@ class FixedXOR
      */
     public function xor(string $against) : string
     {
-        $rawInput = hex2bin($this->message);
-        $rawAgainst = hex2bin($against);
-
-        return bin2hex($rawInput ^ $rawAgainst);
+        return bin2hex($this->message ^ $against);
     }
 }

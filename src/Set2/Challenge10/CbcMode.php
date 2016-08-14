@@ -53,8 +53,7 @@ class CbcMode
 
         for($i = 0; $i < count($blocks); $i++) {
             if(mb_strlen($blocks[$i]) < 16) {
-                $pad = new Pkcs7Padding($blocks[$i]);
-                $blocks[$i] = $pad->pad(16, '\0');
+                $blocks[$i] = Pkcs7Padding::pad($blocks[$i], '\0', 16);
             }
 
             $xored = new FixedXOR($blocks[$i]);

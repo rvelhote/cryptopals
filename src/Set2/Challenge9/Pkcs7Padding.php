@@ -29,25 +29,14 @@ namespace Welhott\Cryptopals\Set2\Challenge9;
 class Pkcs7Padding
 {
     /**
-     * @var string
+     * Pad a message with a padding char up to a certain amount of bytes. This implements PKCS7 padding.
+     * @param string $message The message we want to pad.
+     * @param string $padChar The char we want to pad with.
+     * @param int $bytes The amount of bytes we want to pad to.
+     * @return string The padded message
      */
-    private $message = '';
-
-    /**
-     * Pkcs7Padding constructor.
-     * @param string $message
-     */
-    public function __construct(string $message)
+    public static function pad(string $message, string $padChar = '\0', int $bytes = 20) : string
     {
-        $this->message = $message;
-    }
-
-    /**
-     * @param int $bytes
-     * @return string
-     */
-    public function pad(int $bytes = 20, string $padChar = '\0') : string
-    {
-        return str_pad($this->message, $bytes, $padChar, STR_PAD_RIGHT);
+        return str_pad($message, $bytes, $padChar, STR_PAD_RIGHT);
     }
 }

@@ -56,12 +56,10 @@ class CbcMode
                 $blocks[$i] = Pkcs7Padding::pad($blocks[$i], '\0', 16);
             }
 
-            $xored = new FixedXOR($blocks[$i]);
-
             if($i == 0) {
-                $encrypted[$i] = hex2bin($xored->xor($iv));
+                $encrypted[$i] = hex2bin(FixedXOR::xor($blocks[$i], $iv));
             } else {
-                $encrypted[$i] = hex2bin($xored->xor($encrypted[$i - 1]));
+                $encrypted[$i] = hex2bin(FixedXOR::xor($blocks[$i], $encrypted[$i - 1]));
             }
 
             $aes = new Aes128Ecb($encrypted[$i]);
@@ -79,11 +77,10 @@ class CbcMode
             $aes = new Aes128Ecb($blocks[$i]);
             $decrypted[$i] = $aes->decrypt($key);
 
-            $xored = new FixedXOR($decrypted[$i]);
             if($i == 0) {
-                $decrypted[$i] = hex2bin($xored->xor($iv));
+                $decrypted[$i] = hex2bin(FixedXOR::xor($decrypted[$i], $iv));
             } else {
-                $decrypted[$i] = hex2bin($xored->xor($blocks[$i - 1]));
+                $decrypted[$i] = hex2bin(FixedXOR::xor($decrypted[$i], $blocks[$i - 1]));
             }
         }
 

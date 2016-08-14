@@ -30,27 +30,13 @@ namespace Welhott\Cryptopals\Set1\Challenge2;
 class FixedXOR
 {
     /**
-     * The message that we want to handle.
-     * @var string
-     */
-    private $message = '';
-
-    /**
-     * Challenge2 constructor.
-     * @param string $message The message that we want to handle.
-     */
-    public function __construct(string $message)
-    {
-        $this->message = $message;
-    }
-
-    /**
      * Produce a XOR combination of the the parameter with the string that was initialized in the constructor.
-     * @param string $against The string we want to combine the input against.
+     * @param string $message The message we want to XOR.
+     * @param string $against The string that we want to use to XOR agains the message.
      * @return string The result of the XOR combination in hexadecimal.
      */
-    public function xor(string $against) : string
+    public static function xor(string $message, string $against) : string
     {
-        return bin2hex($this->message ^ $against);
+        return bin2hex($message ^ $against);
     }
 }

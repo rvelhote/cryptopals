@@ -30,26 +30,12 @@ namespace Welhott\Cryptopals\Set1\Challenge1;
 class HexadecimalToBase64
 {
     /**
-     * @var string
-     */
-    private $message = '';
-
-    /**
-     * HexadecimalToBase64 constructor.
-     * @param string $message
-     */
-    public function __construct(string $message)
-    {
-        $this->message = $message;
-    }
-
-    /**
      * Converts a hexadecimal value into Base64 format. We should always operate on raw bytes, never on encoded
      * strings. Only use hex and base64 for pretty-printing.
      * @return string The result string
      */
-    public function convert() : string
+    public static function convert(string $message) : string
     {
-        return base64_encode(hex2bin($this->message));
+        return base64_encode(hex2bin($message));
     }
 }

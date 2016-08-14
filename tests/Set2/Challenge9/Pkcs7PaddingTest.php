@@ -37,7 +37,7 @@ class Pkcs7PaddingTest extends PHPUnit_Framework_TestCase
         $expected = 'YELLOW SUBMARINE'.str_pad('', 4, chr(4), STR_PAD_LEFT);
 
         $challenge = new Pkcs7Padding($message);
-        $padded = $challenge->pad();
+        $padded = $challenge->pad(20, chr(4));
 
         $this->assertEquals(20, mb_strlen($padded));
         $this->assertEquals($expected, $padded);

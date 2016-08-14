@@ -46,8 +46,8 @@ class Pkcs7Padding
      * @param int $bytes
      * @return string
      */
-    public function pad(int $bytes = 20) : string
+    public function pad(int $bytes = 20, string $padChar = '\0') : string
     {
-        return str_pad($this->message, $bytes, chr(4), STR_PAD_RIGHT);
+        return str_pad($this->message, $bytes, $padChar, STR_PAD_RIGHT);
     }
 }

@@ -61,7 +61,7 @@ class DetectAesInEcbMode
     public function getRepeatedBlocks() : int
     {
         $blocks = str_split($this->message, self::BITS / 8);
-        return count(array_unique($blocks));
+        return count(array_unique($blocks)) - 1;
     }
 
     /**

@@ -37,11 +37,9 @@ class Aes128EcbTest extends PHPUnit_Framework_TestCase
             preg_split('/\r\n|\r|\n/', file_get_contents("challenge7.txt"))));
         $key = 'YELLOW SUBMARINE';
 
-        $challenge = new Aes128Ecb($message);
-        $haystack = $challenge->decrypt($key);
+        $haystack = Aes128Ecb::decrypt($message, $key);
 
         $needle = "Vanilla's on the mike, man I'm not lazy.";
-
         $this->assertContains($needle, $haystack);
     }
 }

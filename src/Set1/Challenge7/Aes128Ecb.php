@@ -29,34 +29,28 @@ namespace Welhott\Cryptopals\Set1\Challenge7;
 class Aes128Ecb
 {
     /**
-     * @var string
+     * Encrypt a message using the OpenSSL library and AES-128-ECB algo.
+     *
+     * @param string $message The message to encrypt.
+     * @param string $key The key to encrypt the message with.
+     *
+     * @return string The encrypted message or empty on failure.
      */
-    private $message;
-
-    /**
-     * Challenge7 constructor.
-     * @param string $message
-     */
-    public function __construct(string $message)
+    public static function decrypt(string $message, string $key) : string
     {
-        $this->message = $message;
+        return openssl_decrypt($message, 'AES-128-ECB', $key, OPENSSL_RAW_DATA + OPENSSL_ZERO_PADDING);
     }
 
     /**
-     * @param string $key
-     * @return string
+     * Decrypt a message using the OpenSSL library and AES-128-ECB algo.
+     *
+     * @param string $message The message to decrypt.
+     * @param string $key The key to decrypt the message with.
+     *
+     * @return string The decrypted message or empty on failure.
      */
-    public function decrypt(string $key) : string
+    public static function encrypt(string $message, string $key) : string
     {
-        return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $this->message, MCRYPT_MODE_ECB);
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    public function encrypt(string $key) : string
-    {
-        return mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $this->message, MCRYPT_MODE_ECB);
+        return openssl_encrypt($message, 'AES-128-ECB', $key, OPENSSL_RAW_DATA + OPENSSL_ZERO_PADDING);
     }
 }

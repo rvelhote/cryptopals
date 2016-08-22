@@ -61,8 +61,7 @@ class CbcMode
                 $encrypted[$i] = hex2bin(FixedXOR::xor($blocks[$i], $encrypted[$i - 1]));
             }
 
-            $aes = new Aes128Ecb($encrypted[$i]);
-            $encrypted[$i] = substr($aes->encrypt($key), 0, 16);
+            $encrypted[$i] = Aes128Ecb::encrypt($encrypted[$i], $key);
         }
 
         return implode('', $encrypted);
@@ -89,8 +88,7 @@ class CbcMode
         $decrypted = [];
 
         for($i = 0; $i < count($blocks); $i++) {
-            $aes = new Aes128Ecb($blocks[$i]);
-            $decrypted[$i] = $aes->decrypt($key);
+            $decrypted[$i] = Aes128Ecb::decrypt($blocks[$i], $key);
 
             if($i == 0) {
                 $decrypted[$i] = hex2bin(FixedXOR::xor($decrypted[$i], $iv));

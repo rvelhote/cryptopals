@@ -47,7 +47,7 @@ class CbcModeTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testEnryptionAndDecryption()
+    public function testEncryptionAndDecryption()
     {
         $message = "These pretzels are making me thirsty";
 

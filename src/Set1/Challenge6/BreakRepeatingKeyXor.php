@@ -49,7 +49,7 @@ class BreakRepeatingKeyXor
      * encrypted text and normalize it by dividing by the keysize.
      *
      * It turned out to be necessary to compare the chunks to each of the other chunks, count the number of
-     * calculations done and divide not only by keysize but also by the ammount of Hamming Distance calculations.
+     * calculations done and divide not only by keysize but also by the amount of Hamming Distance calculations.
      *
      * I only found this by looking up other PHP solutions :(
      *
@@ -160,7 +160,7 @@ class BreakRepeatingKeyXor
      * @param string $string1 One string to verify
      * @param string $string2 Another string to verify against.
      *
-     * @return int The Hamming Distance betwen $string1 and $string2. Returns -1 if the they don't have the same size.
+     * @return int The Hamming Distance between $string1 and $string2. Returns -1 if the they don't have the same size.
      * @see https://en.wikipedia.org/wiki/Hamming_distance
      */
     public function hammingDistance(string $string1, string $string2) : int

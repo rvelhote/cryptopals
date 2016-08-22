@@ -172,8 +172,8 @@ class SingleByteXOR
     }
 
     /**
-     * Scores a piece of english text. If a char exists in the FREQUENCY table it gets its value, if it doesn't it gets
-     * penalized big time.
+     * Scores a piece of english text. If a char exists in the FREQUENCY table it gets its value, if it does not it
+     * gets penalized big time.
      * @param string $decrypted A decrypted string. You should have already used the decrypt method.
      * @return float The score that this text had.
      *

@@ -50,9 +50,9 @@ class DetectAesInEcbMode
     /**
      * AES-128-ECB works by encrypting data using 128-bit (16 bytes) blocks. The same 16 byte plaintext
      * block will always produce the same 16 byte ciphertext. We can split the string in block of length 16 and compare
-     * them agains each other. A string encrypted with AES-128-ECB will have some repeated blocks.
+     * them against each other. A string encrypted with AES-128-ECB will have some repeated blocks.
      *
-     * Immediately after commiting the last code I remembered that we are essencial just checking for the amount of
+     * Immediately after committing the last code I remembered that we are essential just checking for the amount of
      * uniques in the message after splitting it in blocks. I left the previous code there too but this simpler
      * solution seems to fit properly,
      *
@@ -62,21 +62,6 @@ class DetectAesInEcbMode
     {
         $blocks = str_split($this->message, self::BITS / 8);
         return count(array_unique($blocks));
-
-//        $repeatedBlocks = [];
-//
-//        $blocks = str_split($this->message, self::BITS / 8);
-//        $totalBlocks = count($blocks);
-//
-//        for ($i = 0; $i < $totalBlocks; $i++) {
-//            for ($j = 0; $j < $totalBlocks; $j++) {
-//                if ($i != $j && $blocks[$i] == $blocks[$j]) {
-//                    $repeatedBlocks[] = $blocks[$i];
-//                }
-//            }
-//        }
-//
-//        return array_unique($repeatedBlocks);
     }
 
     /**

@@ -32,7 +32,7 @@ class FixedXOR
     /**
      * Produce a XOR combination of the the parameter with the string that was initialized in the constructor.
      * @param string $message The message we want to XOR.
-     * @param string $against The string that we want to use to XOR agains the message.
+     * @param string $against The string that we want to use to XOR against the message.
      * @return string The result of the XOR combination in hexadecimal.
      */
     public static function xor(string $message, string $against) : string

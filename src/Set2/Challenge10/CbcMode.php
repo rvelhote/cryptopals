@@ -33,22 +33,21 @@ use Welhott\Cryptopals\Set2\Challenge9\Pkcs7Padding;
 class CbcMode
 {
     /**
-     * @var string
+     * Implement CBC Mode 128bit.
+     *
+     * Messages are split into 16 byte chunks and each chunk is padded as necessary using
+     * PKCS7-padding. Each of the chunks is XOR'ed against the IV (for the first chunk) and against the previously
+     * encrypted chunk for the remaining chunks. Chunks are encrypted using AES-128bit in ECB mode.
+     *
+     * @param string $message The message that we want to encrypt.
+     * @param string $iv The initialization vector for the encryption operation.
+     * @param string $key The key that the message will be encrypted with.
+     *
+     * @return string The encrypted message.
      */
-    public $message = '';
-
-    /**
-     * CbcMode constructor.
-     * @param string $message
-     */
-    public function __construct(string $message)
+    public static function encrypt(string $message, string $iv, string $key) : string
     {
-        $this->message = $message;
-    }
-
-    public function encrypt(string $iv, string $key) : string
-    {
-        $blocks = str_split($this->message, 16);
+        $blocks = str_split($message, 16);
         $encrypted = [];
 
         for($i = 0; $i < count($blocks); $i++) {
@@ -69,8 +68,24 @@ class CbcMode
         return implode('', $encrypted);
     }
 
-    public function decrypt(string $iv, string $key) {
-        $blocks = str_split($this->message, 16);
+    /**
+     * Decrypt messages encrypted by the encrypt method of this class. 128bit CBC mode.
+     *
+     * The decryption operation is the reverse of the encryption operation and follows the same pattern. The encrypted
+     * message is split into 16byte chunks. Each chunk is decrypted with the decryption key. After decryption, the
+     * first chunk is XOR'ed against the IV and the remaining chunks are decrypted and XOR'ed against the previously
+     * decrypted chunk.
+     *
+     * The final message is trimmed and cleaned from padding.
+     *
+     * @param string $message The message that we wish to decrypt.
+     * @param string $iv The IV that encrypted the message.
+     * @param string $key The decryption key.
+     *
+     * @return string A decrypted message.
+     */
+    public static function decrypt(string $message, string $iv, string $key) {
+        $blocks = str_split($message, 16);
         $decrypted = [];
 
         for($i = 0; $i < count($blocks); $i++) {

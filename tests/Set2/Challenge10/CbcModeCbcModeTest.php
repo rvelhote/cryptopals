@@ -22,8 +22,6 @@
  */
 namespace Welhott\Cryptopals\Tests\Set2\Challenge10;
 
-use Welhott\Cryptopals\Set1\Challenge2\FixedXOR;
-use Welhott\Cryptopals\Set1\Challenge7\Aes128Ecb;
 use Welhott\Cryptopals\Set2\Challenge10\CbcMode;
 
 /**
@@ -41,9 +39,7 @@ class CbcModeTest extends \PHPUnit_Framework_TestCase
         $iv = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
         $key = 'YELLOW SUBMARINE';
 
-        $challenge = new CbcMode($message);
-        $decryptedMessage = $challenge->decrypt($iv, $key);
-
+        $decryptedMessage = CbcMode::decrypt($message, $iv, $key);
         $this->assertContains('It controls my mouth and I begin', $decryptedMessage);
 
     }
@@ -58,11 +54,8 @@ class CbcModeTest extends \PHPUnit_Framework_TestCase
         $iv = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
         $key = 'YELLOW SUBMARINE';
 
-        $challenge = new CbcMode($message);
-        $encryptedMessage = $challenge->encrypt($iv, $key);
-
-        $challenge = new CbcMode($encryptedMessage);
-        $decryptedMessage = $challenge->decrypt($iv, $key);
+        $encryptedMessage = CbcMode::encrypt($message, $iv, $key);
+        $decryptedMessage = CbcMode::decrypt($encryptedMessage, $iv, $key);
 
         $this->assertEquals($message, $decryptedMessage);
     }
